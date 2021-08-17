@@ -1,6 +1,7 @@
 dataset/yelp_academic_dataset_review.json
 dataset/yelp_academic_dataset_user.json
 
+.idea
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
