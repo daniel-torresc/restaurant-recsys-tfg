@@ -16,5 +16,11 @@ Trabajo Final de Grado Daniel Torres Candil - UAM EPS
 # Python Modules
 
 - pandas
-- pyspellchecker
-- 
+- ~~pyspellchecker~~
+- nltk
+
+---
+
+# Code Analyzer
+
+- **SonarQube**: automatic code review tool to detect bugs, vulnerabilities, and code smells in the code.
