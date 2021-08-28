@@ -1,11 +1,13 @@
 import pandas as pd
+from nltk.tokenize import RegexpTokenizer
 
 if __name__ == "__main__":
     # Import datasets
     df_reviews = pd.read_json("dataset/yelp_academic_dataset_review_sample.json", lines=True)
     df_aspects = pd.read_csv("dataset/aspects_restaurants.csv", header=None, names=['key', 'value'])
 
-    punctuation_marks = ".,!?:;-()[]"
+    # Tokenizer for words
+    tokenizer = RegexpTokenizer(r'\w+')
 
     # Convert 'aspects' dataframe into dictionary
     aspects_dict = {}
@@ -15,14 +17,13 @@ if __name__ == "__main__":
 
     # Filling 'aspects' attribute in 'reviews' dataset
     for index, row in df_reviews.iterrows():
+        review_id = row['review_id']
         review = row['text']
 
         # Remove of punctuation marks in review
-        for char in punctuation_marks:
-            review = review.replace(char, "")
+        review_words = tokenizer.tokenize(review.lower())
 
         # Check which aspects correspond to the review
-        review_words = review.lower().split()
         aspects = []
         for aspect in aspects_dict:
             for a in aspects_dict[aspect]:
