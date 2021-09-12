@@ -4,7 +4,7 @@ from nltk.sentiment import SentimentIntensityAnalyzer
 
 if __name__ == "__main__":
     # Import datasets
-    df_reviews = pd.read_json("dataset/yelp_academic_dataset_review_sample.json", lines=True)
+    df_reviews = pd.read_json("dataset/yelp_academic_dataset_review_1k.json", lines=True)
     df_aspects = pd.read_csv("dataset/aspects_restaurants.csv", header=None, names=['key', 'value'])
 
     # Create empty annotations dataframe
