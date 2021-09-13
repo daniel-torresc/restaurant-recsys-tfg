@@ -6,10 +6,13 @@ Trabajo Final de Grado Daniel Torres Candil - UAM EPS
 
 # Step Guide
 
-1. Crear un dataset más pequeño con el que poder trabajar (**_pandas_**).
-2. Corregir misspelled words en las reviews y actualizarlas (**_pyspellchecker_**).
-3. Extraer los aspects de cada una de las reviews.
-4. Añadir al dataset la columna de aspects.
+1. Extraer de yelp_academic_dataset_business.json los businesses que son restaurantes (**_pandas_**).
+2. Extraer solo las reviews relacionadas con los restaurantes a otro dataset (**_pandas_**).
+3. Crear varios datasets más pequeños con los que poder trabajar (**_pandas_**).
+
+
+4. Corregir misspelled words en las reviews y actualizarlas (**_pyspellchecker_**).
+5. Extraer los aspects de cada una de las reviews.
 
 ---
 

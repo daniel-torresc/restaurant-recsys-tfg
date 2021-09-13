@@ -14,6 +14,9 @@ if __name__ == "__main__":
     # Remove unwanted columns from reviews dataset
     df_reviews = df_reviews[['review_id', 'user_id', 'business_id', 'stars', 'text']]
 
+    # Save dataset with only restaurant businesses
+    df_reviews.to_json("../dataset/yelp_academic_dataset_review_restaurants.json", orient='records', lines=True)
+
     # Save dataset samples
     sample = df_reviews.sample(1000)
     sample.to_json("../dataset/yelp_academic_dataset_review_1k.json", orient='records', lines=True)
