@@ -9,21 +9,17 @@ Trabajo Final de Grado Daniel Torres Candil - UAM EPS
 1. Extraer de yelp_academic_dataset_business.json los businesses que son restaurantes (**_pandas_**).
 2. Extraer solo las reviews relacionadas con los restaurantes a otro dataset (**_pandas_**).
 3. Crear varios datasets más pequeños con los que poder trabajar (**_pandas_**).
-
-
-4. Corregir misspelled words en las reviews y actualizarlas (**_pyspellchecker_**).
-5. Extraer los aspects de cada una de las reviews.
+4. Procesar las reviews en un nuevo módulo y guardarlas en un nuevo dataset - _annotations_ (**_pandas_** - **_nltk_**).
+   1. Importar los datasets de aspects, lexicon y modifiers.
+   2. Crear dataset con la estructura determinada en el tfg.
+   3. Para cada una de las reviews, ir frase por frase sacando el sentimiento y los aspects, lexicon y modifiers de cada una.
+   4. Guardar cada lexicon como una nueva entrada en el dataset.
 
 ---
 
 # Python Modules
 
 - pandas
-- ~~pyspellchecker~~
 - nltk
 
 ---
-
-# Code Analyzer
-
-- **SonarQube**: automatic code review tool to detect bugs, vulnerabilities, and code smells in the code.
