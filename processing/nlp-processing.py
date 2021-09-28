@@ -27,7 +27,7 @@ if __name__ == "__main__":
     df_modifiers = pd.read_csv("../dataset/adjective-modifiers.csv", header=None, names=['modifier', 'weight'])
 
     # Create empty annotations dataframe
-    columns = ['user_id', 'review_id', 'rate', 'term', 'aspect', 'lexicon', 'lexicon_weight', 'modifier', 'modifier_weight', 'feeling']
+    columns = ['user_id', 'review_id', 'restaurant_id', 'rate', 'term', 'aspect', 'lexicon', 'lexicon_weight', 'modifier', 'modifier_weight', 'feeling']
     annotations_df = pd.DataFrame(columns=columns)
 
     # Convert 'aspects' dataframe into dictionary
@@ -57,6 +57,7 @@ if __name__ == "__main__":
 
         user_id = row['user_id']
         review_id = row['review_id']
+        restaurant_id = row['business_id']
         rate = row['stars']
         review = row['text']
 
@@ -84,7 +85,7 @@ if __name__ == "__main__":
                         else:
                             modifier, modifier_weight = None, None
 
-                        new_record = [user_id, review_id, rate, term, aspect, lexicon, lexicon_weight, modifier, modifier_weight, feeling]
+                        new_record = [user_id, review_id, restaurant_id, rate, term, aspect, lexicon, lexicon_weight, modifier, modifier_weight, feeling]
                         annotations_df.loc[len(annotations_df)] = new_record
 
     # Dump annotations into json file
