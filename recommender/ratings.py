@@ -50,14 +50,16 @@ class Ratings:
 
                 self.ratings_of_restaurant[restaurant][user] = rate
 
-    def user_ratings(self, user):
-        return self.ratings_of_user[user]
+    def ratings(self, item):
+        if item in self.users():
+            return self.ratings_of_user[item]
+        elif item in self.restaurants():
+            return self.ratings_of_restaurant[item]
+
+        return None
 
     def user_rating(self, user, restaurant):
         return self.ratings_of_user[user][restaurant]
-
-    def restaurant_ratings(self, restaurant):
-        return self.ratings_of_restaurant[restaurant]
 
     def restaurant_rating(self, restaurant, user):
         return self.ratings_of_restaurant[restaurant][user]

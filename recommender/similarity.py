@@ -84,8 +84,8 @@ class CosineUserSimilarityRatings(Similarity):
         return abs(self.scalar_product(user1, user2) / (self.module(user1) * self.module(user2)))
 
     def scalar_product(self, user1, user2):
-        restaurants_user1 = set(self.ratings.user_ratings(user1).keys())
-        restaurants_user2 = set(self.ratings.user_ratings(user2).keys())
+        restaurants_user1 = set(self.ratings.ratings(user1).keys())
+        restaurants_user2 = set(self.ratings.ratings(user2).keys())
         common_restaurants = restaurants_user1.intersection(restaurants_user2)
 
         summation = 0
@@ -95,7 +95,7 @@ class CosineUserSimilarityRatings(Similarity):
         return summation
 
     def module(self, user):
-        return math.sqrt(sum(i**2 for i in self.ratings.user_ratings(user).values()))
+        return math.sqrt(sum(i**2 for i in self.ratings.ratings(user).values()))
 
 
 class CosineRestaurantSimilarityRatings(Similarity):
@@ -113,8 +113,8 @@ class CosineRestaurantSimilarityRatings(Similarity):
         return abs(self.scalar_product(restaurant1, restaurant2) / (self.module(restaurant1) * self.module(restaurant2)))
 
     def scalar_product(self, restaurant1, restaurant2):
-        users_restaurant1 = set(self.ratings.restaurant_ratings(restaurant1).keys())
-        users_restaurant2 = set(self.ratings.restaurant_ratings(restaurant2).keys())
+        users_restaurant1 = set(self.ratings.ratings(restaurant1).keys())
+        users_restaurant2 = set(self.ratings.ratings(restaurant2).keys())
         common_users = users_restaurant1.intersection(users_restaurant2)
 
         summation = 0
@@ -124,4 +124,4 @@ class CosineRestaurantSimilarityRatings(Similarity):
         return summation
 
     def module(self, restaurant):
-        return math.sqrt(sum(i**2 for i in self.ratings.restaurant_ratings(restaurant).values()))
+        return math.sqrt(sum(i**2 for i in self.ratings.ratings(restaurant).values()))
