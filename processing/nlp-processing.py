@@ -1,11 +1,11 @@
+import numpy as np
 import pandas as pd
 import nltk
 from nltk.sentiment import SentimentIntensityAnalyzer
+from multiprocessing import Pool, current_process
 
 
-if __name__ == "__main__":
-    # Import datasets
-    df_reviews = pd.read_json("../dataset/yelp_academic_dataset_review_restaurants.json", lines=True)
+def iterate_reviews(df):
     df_aspects = pd.read_csv("../dataset/aspects_restaurants.csv", header=None, names=['key', 'value'])
 
     # Create empty annotations dataframe
@@ -21,9 +21,9 @@ if __name__ == "__main__":
     sia = SentimentIntensityAnalyzer()
 
     # Iterate over each review
-    for index, row in df_reviews.iterrows():
+    for index, row in df.iterrows():
         if (index + 1) % 100 == 0:
-            print(f"Processed {index + 1:,} out of {len(df_reviews):,} reviews")
+            print(f"{current_process().name} - Processed {(index+1) % len(df):,} out of {len(df):,} reviews")
 
         review = row['text']
 
@@ -37,7 +37,8 @@ if __name__ == "__main__":
             words = nltk.word_tokenize(sentence)
             words_tagged = nltk.pos_tag(words)  # Tagging words
 
-            nouns = [word for word, tag in words_tagged if tag.startswith('N') and word in aspects_dict]  # Finding nouns
+            nouns = [word for word, tag in words_tagged if
+                     tag.startswith('N') and word in aspects_dict]  # Finding nouns
 
             for term in nouns:
                 new_record = [
@@ -50,6 +51,24 @@ if __name__ == "__main__":
                     feeling
                 ]
                 annotations_df.loc[len(annotations_df)] = new_record
+
+    return annotations_df
+
+
+def parallelize_dataframe(df, func, n_cores=8):
+    df_split = np.array_split(df, n_cores)
+    pool = Pool(n_cores)
+    df = pd.concat(pool.map(func, df_split))
+    pool.close()
+    pool.join()
+    return df
+
+
+if __name__ == "__main__":
+    # Import datasets
+    df_reviews = pd.read_json("../dataset/yelp_academic_dataset_review_restaurants.json", lines=True)
+
+    annotations_df = parallelize_dataframe(df_reviews, iterate_reviews)
 
     # Dump annotations into json file
     annotations_df.to_json("../dataset/annotations_dataset.json", orient='records', lines=True)
