@@ -8,10 +8,6 @@ from multiprocessing import Pool, current_process
 def iterate_reviews(df):
     df_aspects = pd.read_csv("../dataset/aspects_restaurants.csv", header=None, names=['key', 'value'])
 
-    # Create empty annotations dataframe
-    columns = ['user_id', 'review_id', 'restaurant_id', 'rate', 'term', 'aspect', 'feeling']
-    annotations_df = pd.DataFrame(columns=columns)
-
     # Convert 'aspects' dataframe into dictionary
     aspects_dict = {}
     for _, row in df_aspects.iterrows():
@@ -21,8 +17,9 @@ def iterate_reviews(df):
     sia = SentimentIntensityAnalyzer()
 
     # Iterate over each review
+    row_list = []
     for index, row in df.iterrows():
-        if (index + 1) % 100 == 0:
+        if (index + 1) % 1000 == 0:
             print(f"{current_process().name} - Processed {(index+1) % len(df):,} out of {len(df):,} reviews")
 
         review = row['text']
@@ -50,7 +47,11 @@ def iterate_reviews(df):
                     aspects_dict[term],
                     feeling
                 ]
-                annotations_df.loc[len(annotations_df)] = new_record
+                row_list.append(new_record)
+
+    # Create empty annotations dataframe
+    columns = ['user_id', 'review_id', 'restaurant_id', 'rate', 'term', 'aspect', 'feeling']
+    annotations_df = pd.DataFrame(row_list, columns=columns)
 
     return annotations_df
 
@@ -68,7 +69,7 @@ if __name__ == "__main__":
     # Import datasets
     df_reviews = pd.read_json("../dataset/yelp_academic_dataset_review_restaurants.json", lines=True)
 
-    annotations_df = parallelize_dataframe(df_reviews, iterate_reviews)
+    final_df = parallelize_dataframe(df_reviews, iterate_reviews)
 
     # Dump annotations into json file
-    annotations_df.to_json("../dataset/annotations_dataset.json", orient='records', lines=True)
+    final_df.to_json("../dataset/annotations_dataset.json", orient='records', lines=True)
