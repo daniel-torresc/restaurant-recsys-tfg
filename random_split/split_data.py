@@ -4,7 +4,15 @@ import argparse
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-s", "--size", default=0.2, type=float, choices=range(0,1), help="Test size percentage")
+    parser.add_argument(
+        "-s",
+        "--size",
+        default=0.2,
+        type=float,
+        choices=range(1),
+        help="Test size percentage - [0-1)",
+    )
+
     args = parser.parse_args()
 
     df_annotations = pd.read_json("../dataset/annotations_dataset.json", lines=True)

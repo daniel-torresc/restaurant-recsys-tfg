@@ -9,10 +9,7 @@ def iterate_reviews(df):
     df_aspects = pd.read_csv("../dataset/aspects_restaurants.csv", header=None, names=['key', 'value'])
 
     # Convert 'aspects' dataframe into dictionary
-    aspects_dict = {}
-    for _, row in df_aspects.iterrows():
-        aspects_dict[row['value']] = row['key']
-
+    aspects_dict = {row['value']: row['key'] for _, row in df_aspects.iterrows()}
     # Instantiate SentimentIntensityAnalyzer in order to use VADER (pre-trained sentiment analyzer from nltk)
     sia = SentimentIntensityAnalyzer()
 
@@ -51,9 +48,7 @@ def iterate_reviews(df):
 
     # Create empty annotations dataframe
     columns = ['user_id', 'review_id', 'restaurant_id', 'rate', 'term', 'aspect', 'feeling']
-    annotations_df = pd.DataFrame(row_list, columns=columns)
-
-    return annotations_df
+    return pd.DataFrame(row_list, columns=columns)
 
 
 def parallelize_dataframe(df, func, n_cores=8):

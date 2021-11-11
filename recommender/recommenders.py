@@ -50,11 +50,11 @@ class CosineRecommender(Recommender):
         aspects_restaurant = set(self.ratings.aspects(restaurant).keys())
         common_aspects = aspects_user.intersection(aspects_restaurant)
 
-        summation = 0
-        for aspect in common_aspects:
-            summation += self.ratings.aspect_weight(user, aspect) * self.ratings.aspect_weight(restaurant, aspect)
-
-        return summation
+        return sum(
+            self.ratings.aspect_weight(user, aspect)
+            * self.ratings.aspect_weight(restaurant, aspect)
+            for aspect in common_aspects
+        )
 
     def module(self, item):
         return math.sqrt(sum(i**2 for i in self.ratings.aspects(item).values()))
@@ -88,13 +88,12 @@ class UserKNNRecommender(Recommender):
     def score(self, user, restaurant):
         heap = self.knn_similarity[user]
 
-        summation = 0
-        for sim, user2 in heap:
-            if restaurant in self.ratings.ratings(user2).keys():
-                if self.ratings.user_rating(user2, restaurant) != 0:
-                    summation += sim * self.ratings.user_rating(user2, restaurant)
-
-        return summation
+        return sum(
+            sim * self.ratings.user_rating(user2, restaurant)
+            for sim, user2 in heap
+            if restaurant in self.ratings.ratings(user2).keys()
+            and self.ratings.user_rating(user2, restaurant) != 0
+        )
 
 
 class RestaurantKNNRecommender(Recommender):
@@ -142,10 +141,9 @@ class RestaurantKNNRecommender(Recommender):
     def score(self, restaurant, user):
         heap = self.knn_similarity[restaurant]
 
-        summation = 0
-        for sim, restaurant2 in heap:
-            if user in self.ratings.ratings(restaurant2).keys():
-                if self.ratings.restaurant_rating(restaurant2, user) != 0:
-                    summation += sim * self.ratings.restaurant_rating(restaurant2, user)
-
-        return summation
+        return sum(
+            sim * self.ratings.restaurant_rating(restaurant2, user)
+            for sim, restaurant2 in heap
+            if user in self.ratings.ratings(restaurant2).keys()
+            and self.ratings.restaurant_rating(restaurant2, user) != 0
+        )
