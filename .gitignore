@@ -1,6 +1,7 @@
 dataset/yelp_academic_dataset_review.json
 dataset/yelp_academic_dataset_user.json
 dataset/yelp_academic_dataset_review_restaurants.json
+dataset/annotations_dataset.json
 .DS_Store
 .idea
 
