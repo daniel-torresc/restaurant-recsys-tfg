@@ -44,7 +44,7 @@ if __name__ == "__main__":
     # ib
     similarity_function = CosineRestaurantSimilarityRatings(ratings)
     recommender = RestaurantKNNRecommender(ratings=ratings, sim=similarity_function, k=4)
-    recommendation = recommender.recommend(topn=1)
+    recommendation = recommender.recommend(topn=10)
     print("RestaurantKNNRecommender - (ib)")
     for restaurant in itertools.islice(recommendation, 4):
         print(f"Restaurant [{restaurant}] ->\n{recommendation[restaurant]}")
