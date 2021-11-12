@@ -17,10 +17,19 @@ class CosineUserSimilarityAspects(Similarity):
         super().__init__(ratings)
 
         self.s = {}  # s[u1][u2] = similarity between users u1 and u2
-        for user1 in self.ratings.users():
+        for index1, user1 in enumerate(self.ratings.users()):
             self.s[user1] = {}
-            for user2 in self.ratings.users():
-                self.s[user1][user2] = self.sim(user1, user2)
+
+            for index2, user2 in enumerate(self.ratings.users()):
+                if index1 < index2:
+                    break
+
+                self.s.setdefault(user2, {})  # Create dictionary just in case it doesn't already exist
+
+                # As it is a symmetric matrix, we can set both at once time and save some computation time
+                sim = self.sim(user1, user2)
+                self.s[user1][user2] = sim
+                self.s[user2][user1] = sim
 
     def sim(self, user1, user2):
         return abs(self.scalar_product(user1, user2) / (self.module(user1) * self.module(user2)))
@@ -46,10 +55,19 @@ class CosineRestaurantSimilarityAspects(Similarity):
         super().__init__(ratings)
 
         self.s = {}  # s[r1][r2] = similarity between restaurants r1 and r2
-        for restaurant1 in self.ratings.restaurants():
+        for index1, restaurant1 in enumerate(self.ratings.restaurants()):
             self.s[restaurant1] = {}
-            for restaurant2 in self.ratings.restaurants():
-                self.s[restaurant1][restaurant2] = self.sim(restaurant1, restaurant2)
+
+            for index2, restaurant2 in enumerate(self.ratings.restaurants()):
+                if index1 < index2:
+                    break
+
+                self.s.setdefault(restaurant2, {})  # Create dictionary just in case it doesn't already exist
+
+                # As it is a symmetric matrix, we can set both at once time and save some computation time
+                sim = self.sim(restaurant1, restaurant2)
+                self.s[restaurant1][restaurant2] = sim
+                self.s[restaurant2][restaurant1] = sim
 
     def sim(self, restaurant1, restaurant2):
         return abs(self.scalar_product(restaurant1, restaurant2) / (self.module(restaurant1) * self.module(restaurant2)))
@@ -75,10 +93,19 @@ class CosineUserSimilarityRatings(Similarity):
         super().__init__(ratings)
 
         self.s = {}  # s[u1][u2] = similarity between users u1 and u2
-        for user1 in self.ratings.users():
+        for index1, user1 in enumerate(self.ratings.users()):
             self.s[user1] = {}
-            for user2 in self.ratings.users():
-                self.s[user1][user2] = self.sim(user1, user2)
+
+            for index2, user2 in enumerate(self.ratings.users()):
+                if index1 < index2:
+                    break
+
+                self.s.setdefault(user2, {})  # Create dictionary just in case it doesn't already exist
+
+                # As it is a symmetric matrix, we can set both at once time and save some computation time
+                sim = self.sim(user1, user2)
+                self.s[user1][user2] = sim
+                self.s[user2][user1] = sim
 
     def sim(self, user1, user2):
         return abs(self.scalar_product(user1, user2) / (self.module(user1) * self.module(user2)))
@@ -104,10 +131,19 @@ class CosineRestaurantSimilarityRatings(Similarity):
         super().__init__(ratings)
 
         self.s = {}  # s[r1][r2] = similarity between restaurants r1 and r2
-        for restaurant1 in self.ratings.restaurants():
+        for index1, restaurant1 in enumerate(self.ratings.restaurants()):
             self.s[restaurant1] = {}
-            for restaurant2 in self.ratings.restaurants():
-                self.s[restaurant1][restaurant2] = self.sim(restaurant1, restaurant2)
+
+            for index2, restaurant2 in enumerate(self.ratings.restaurants()):
+                if index1 < index2:
+                    break
+
+                self.s.setdefault(restaurant2, {})  # Create dictionary just in case it doesn't already exist
+
+                # As it is a symmetric matrix, we can set both at once time and save some computation time
+                sim = self.sim(restaurant1, restaurant2)
+                self.s[restaurant1][restaurant2] = sim
+                self.s[restaurant2][restaurant1] = sim
 
     def sim(self, restaurant1, restaurant2):
         return abs(self.scalar_product(restaurant1, restaurant2) / (self.module(restaurant1) * self.module(restaurant2)))
