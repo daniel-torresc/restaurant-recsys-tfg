@@ -5,46 +5,39 @@ from similarity import CosineUserSimilarityAspects, CosineRestaurantSimilarityAs
     CosineRestaurantSimilarityRatings
 from ratings import Ratings
 
+
+def test_recommenders(ratings, k, topn):
+    test_recommender(CosineRecommender(ratings), topn)
+
+    similarities = [
+        CosineUserSimilarityRatings(ratings),
+        CosineUserSimilarityAspects(ratings),
+        CosineRestaurantSimilarityRatings(ratings),
+        CosineRestaurantSimilarityAspects(ratings)
+    ]
+
+    recommenders = []
+    for sim in similarities:
+        recommenders.append(UserKNNRecommender(ratings, sim, k))
+        recommenders.append(RestaurantKNNRecommender(ratings, sim, k))
+
+    for recommender in recommenders:
+        test_recommender(recommender, topn)
+
+
+def test_recommender(recommender, topn):
+    print(f"Testing {recommender} - Top {topn}")
+
+    recommendation = recommender.recommend(topn)
+    if "user" in str(recommender).lower():
+        for item in itertools.islice(recommendation, 4):
+            print(f"User [{item}] ->\n{recommendation[item]}")
+    else:
+        for item in itertools.islice(recommendation, 4):
+            print(f"Restaurant [{item}] ->\n{recommendation[item]}")
+
+
 if __name__ == "__main__":
-    df_annotations = pd.read_json("../dataset/annotations_dataset.json", lines=True)
+    df_annotations = pd.read_json("../dataset/annotations_dataset_10k.json", lines=True)
 
-    ratings = Ratings(df_annotations)
-
-    # cb
-    recommender = CosineRecommender(ratings=ratings)
-    recommendation = recommender.recommend(topn=10)
-    print("CosineRecommender - (cb)")
-    for user in itertools.islice(recommendation, 4):
-        print(f"User [{user}] ->\n{recommendation[user]}")
-
-    # cbub
-    similarity_function = CosineUserSimilarityAspects(ratings)
-    recommender = UserKNNRecommender(ratings=ratings, sim=similarity_function, k=4)
-    recommendation = recommender.recommend(topn=10)
-    print("UserKNNRecommender - (cbub)")
-    for user in itertools.islice(recommendation, 4):
-        print(f"User [{user}] ->\n{recommendation[user]}")
-
-    # cbib
-    similarity_function = CosineRestaurantSimilarityAspects(ratings)
-    recommender = RestaurantKNNRecommender(ratings=ratings, sim=similarity_function, k=4)
-    recommendation = recommender.recommend(topn=10)
-    print("RestaurantKNNRecommender - (cbib)")
-    for restaurant in itertools.islice(recommendation, 4):
-        print(f"Restaurant [{restaurant}] ->\n{recommendation[restaurant]}")
-
-    # ub
-    similarity_function = CosineUserSimilarityRatings(ratings)
-    recommender = UserKNNRecommender(ratings=ratings, sim=similarity_function, k=4)
-    recommendation = recommender.recommend(topn=10)
-    print("UserKNNRecommender - (ub)")
-    for user in itertools.islice(recommendation, 4):
-        print(f"User [{user}] ->\n{recommendation[user]}")
-
-    # ib
-    similarity_function = CosineRestaurantSimilarityRatings(ratings)
-    recommender = RestaurantKNNRecommender(ratings=ratings, sim=similarity_function, k=4)
-    recommendation = recommender.recommend(topn=10)
-    print("RestaurantKNNRecommender - (ib)")
-    for restaurant in itertools.islice(recommendation, 4):
-        print(f"Restaurant [{restaurant}] ->\n{recommendation[restaurant]}")
+    test_recommenders(Ratings(df_annotations), k=10, topn=5)
