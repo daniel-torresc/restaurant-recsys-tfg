@@ -38,6 +38,6 @@ def test_recommender(recommender, topn):
 
 
 if __name__ == "__main__":
-    df_annotations = pd.read_json("../dataset/annotations_dataset_10k.json", lines=True)
+    df_annotations = pd.read_pickle("dataset/annotations_dataset.pickle")
 
     test_recommenders(Ratings(df_annotations), k=10, topn=5)

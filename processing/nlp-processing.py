@@ -2,11 +2,11 @@ import numpy as np
 import pandas as pd
 import nltk
 from nltk.sentiment import SentimentIntensityAnalyzer
-from multiprocessing import Pool, current_process
+from multiprocessing import Pool, current_process, cpu_count
 
 
 def iterate_reviews(df):
-    df_aspects = pd.read_csv("../dataset/aspects_restaurants.csv", header=None, names=['key', 'value'])
+    df_aspects = pd.read_csv("dataset/aspects_restaurants.csv", header=None, names=['key', 'value'])
 
     # Convert 'aspects' dataframe into dictionary
     aspects_dict = {row['value']: row['key'] for _, row in df_aspects.iterrows()}
@@ -51,9 +51,9 @@ def iterate_reviews(df):
     return pd.DataFrame(row_list, columns=columns)
 
 
-def parallelize_dataframe(df, func, n_cores=8):
-    df_split = np.array_split(df, n_cores)
-    pool = Pool(n_cores)
+def parallelize_dataframe(df, func):
+    df_split = np.array_split(df, cpu_count())
+    pool = Pool(cpu_count())
     df = pd.concat(pool.map(func, df_split))
     pool.close()
     pool.join()
@@ -62,9 +62,9 @@ def parallelize_dataframe(df, func, n_cores=8):
 
 if __name__ == "__main__":
     # Import datasets
-    df_reviews = pd.read_json("../dataset/yelp_academic_dataset_review_restaurants.json", lines=True)
+    df_reviews = pd.read_json("dataset/yelp_academic_dataset_review_restaurants.json", lines=True)
 
     final_df = parallelize_dataframe(df_reviews, iterate_reviews)
 
-    # Dump annotations into json file
-    final_df.to_json("../dataset/annotations_dataset.json", orient='records', lines=True)
+    # Dump annotations into file
+    final_df.to_pickle("../recommender/dataset/annotations_dataset.pickle")

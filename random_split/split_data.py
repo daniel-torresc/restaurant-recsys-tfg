@@ -15,9 +15,9 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    df_annotations = pd.read_json("../dataset/annotations_dataset.json", lines=True)
+    df_annotations = pd.read_pickle("../recommender/dataset/annotations_dataset.pickle")
 
     train, test = train_test_split(df_annotations, test_size=args.size)
 
-    train.to_json("../dataset/annotations_dataset_train.json", orient='records', lines=True)
-    test.to_json("../dataset/annotations_dataset_test.json", orient='records', lines=True)
+    train.to_pickle("../recommender/dataset/annotations_dataset_train.pickle")
+    test.to_pickle("../recommender/dataset/annotations_dataset_test.pickle")

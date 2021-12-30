@@ -2,8 +2,8 @@ import pandas as pd
 
 if __name__ == "__main__":
     # Load both business and reviews datasets
-    df_business = pd.read_json("../dataset/yelp_academic_dataset_business.json", lines=True)
-    df_reviews = pd.read_json("../dataset/yelp_academic_dataset_review.json", lines=True)
+    df_business = pd.read_json("dataset/yelp_academic_dataset_business.json", lines=True)
+    df_reviews = pd.read_json("dataset/yelp_academic_dataset_review.json", lines=True)
 
     # Remove unwanted columns from business dataset
     df_business = df_business[['business_id', 'categories']]
@@ -18,14 +18,7 @@ if __name__ == "__main__":
     df_reviews = df_reviews.loc[df_reviews['business_id'].isin(df_business['business_id'].tolist())]
 
     # Save dataset with only restaurant businesses
-    df_reviews.to_json("../dataset/yelp_academic_dataset_review_restaurants.json", orient='records', lines=True)
-
-    # Save dataset samples
-    sample = df_reviews.sample(1000)
-    sample.to_json("../dataset/yelp_academic_dataset_review_restaurants_1k.json", orient='records', lines=True)
-
-    sample = df_reviews.sample(5000)
-    sample.to_json("../dataset/yelp_academic_dataset_review_restaurants_5k.json", orient='records', lines=True)
+    df_reviews.to_json("../processing/dataset/yelp_academic_dataset_review_restaurants.json", orient='records', lines=True)
 
     sample = df_reviews.sample(10000)
-    sample.to_json("../dataset/yelp_academic_dataset_review_restaurants_10k.json", orient='records', lines=True)
+    sample.to_json("../processing/dataset/yelp_academic_dataset_review_restaurants_10k.json", orient='records', lines=True)
