@@ -1,4 +1,3 @@
-dataset/yelp_academic_dataset_review.json
 pre-processing/dataset/*
 processing/dataset/*
 recommender/dataset/*
