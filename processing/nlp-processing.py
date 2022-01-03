@@ -17,7 +17,7 @@ def iterate_reviews(df):
     row_list = []
     for index, row in df.iterrows():
         if (index + 1) % 1000 == 0:
-            print(f"{current_process().name} - Processed {(index+1) % len(df):,} out of {len(df):,} reviews")
+            print(f"{current_process().name:>20} - Processed {(index+1) % len(df):>8} out of {len(df):>8} reviews")
 
         review = row['text']
 
@@ -46,7 +46,7 @@ def iterate_reviews(df):
                 ]
                 row_list.append(new_record)
 
-    # Create empty annotations dataframe
+    # Create partial annotations dataframe
     columns = ['user_id', 'review_id', 'restaurant_id', 'rate', 'term', 'aspect', 'feeling']
     return pd.DataFrame(row_list, columns=columns)
 
@@ -54,17 +54,28 @@ def iterate_reviews(df):
 def parallelize_dataframe(df, func):
     df_split = np.array_split(df, cpu_count())
     pool = Pool(cpu_count())
-    df = pd.concat(pool.map(func, df_split))
+    df_concat = pd.concat(pool.map(func, df_split))
     pool.close()
     pool.join()
-    return df
+    return df_concat
 
 
 if __name__ == "__main__":
     # Import datasets
-    df_reviews = pd.read_json("dataset/yelp_academic_dataset_review_restaurants.json", lines=True)
+    df_reviews = pd.read_json("dataset/dataset_review_restaurants.json", lines=True)
+    df_reviews.name = "annotations_dataset"
 
-    final_df = parallelize_dataframe(df_reviews, iterate_reviews)
+    df_reviews_5k = pd.read_json("dataset/dataset_review_restaurants_5k.json", lines=True)
+    df_reviews_5k.name = "annotations_dataset_5k"
 
-    # Dump annotations into file
-    final_df.to_pickle("../recommender/dataset/annotations_dataset.pickle")
+    df_reviews_10k = pd.read_json("dataset/dataset_review_restaurants_10k.json", lines=True)
+    df_reviews_10k.name = "annotations_dataset_10k"
+
+    for dframe in [df_reviews_5k, df_reviews_10k, df_reviews]:
+        final_df = parallelize_dataframe(dframe, iterate_reviews)
+
+        # Dump annotations into file
+        final_df.to_pickle(f"../recommender/dataset/{dframe.name}.pickle")
+        final_df.to_json(f"../recommender/dataset/{dframe.name}.json", orient='records', lines=True)
+
+        print(f"Finished processing {dframe.name}...\n")
