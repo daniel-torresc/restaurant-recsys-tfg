@@ -1,5 +1,7 @@
 import itertools
 import pandas as pd
+import argparse
+from sklearn.model_selection import train_test_split
 from recommenders import CosineRecommender, UserKNNRecommender, RestaurantKNNRecommender
 from similarity import CosineUserSimilarityAspects, CosineRestaurantSimilarityAspects, CosineUserSimilarityRatings, \
     CosineRestaurantSimilarityRatings
@@ -38,6 +40,22 @@ def test_recommender(recommender, topn):
 
 
 if __name__ == "__main__":
-    df_annotations = pd.read_pickle("dataset/annotations_dataset.pickle")
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "-s",
+        "--size",
+        default=0.2,
+        type=float,
+        choices=range(1),
+        help="Test size percentage - [0-1)",
+    )
 
-    test_recommenders(Ratings(df_annotations), k=10, topn=5)
+    args = parser.parse_args()
+
+    df_annotations = pd.read_pickle("dataset/annotations_dataset_5k.pickle")
+
+    train_df, test_df = train_test_split(df_annotations, test_size=args.size, random_state=1)
+    train = Ratings(train_df)
+    test = Ratings(test_df)
+
+    test_recommenders(train, k=10, topn=5)
