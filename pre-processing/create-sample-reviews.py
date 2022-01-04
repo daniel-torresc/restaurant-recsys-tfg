@@ -12,14 +12,18 @@ if __name__ == "__main__":
     df_reviews = df_reviews[['review_id', 'user_id', 'business_id', 'stars', 'text']]
 
     # Filter every business that contains the category 'Restaurants' and has more than 50 reviews
+    perc_99 = int(df_business['review_count'].quantile(0.99))
     df_business = df_business.loc[
         (df_business['categories'].str.contains("Restaurants", na=False)) &
-        (df_business['review_count'] >= 50)
+        (df_business['review_count'] >= 10) &
+        (df_business['review_count'] <= perc_99)
     ]
 
     # Filter every user with more than 50 reviews
+    perc_99 = int(df_user['review_count'].quantile(0.99))
     df_user = df_user.loc[
-        df_user['review_count'] >= 50
+        (df_user['review_count'] >= 10) &
+        (df_user['review_count'] <= perc_99)
     ]
 
     # Filter the reviews whose business_id and user_id are in their dfs
