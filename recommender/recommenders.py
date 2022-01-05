@@ -12,18 +12,23 @@ class Recommender(ABC):
     def __repr__(self):
         return type(self).__name__
 
-    def recommend(self, topn):
+    def recommend(self, topn, test_users=None):
         """
         :param topn: it limits the Ranking size to topn items.
+        :param test_users: users to test
         :return: a dictionary of a ranking per user.
         """
         recommendations = {}
 
-        for user in self.ratings.users():
+        if test_users is None:
+            test_users = self.ratings.users()
+
+        for user in test_users:
             ranking = Ranking(topn)
 
             for restaurant in self.ratings.restaurants():
-                ranking.add(restaurant, self.score(user, restaurant))
+                if self.ratings.user_rating(user, restaurant) is None:
+                    ranking.add(restaurant, self.score(user, restaurant))
 
             recommendations[user] = ranking
 
@@ -42,6 +47,9 @@ class CosineRecommender(Recommender):
     def __init__(self, ratings):
         super().__init__(ratings)
 
+        # Cache variables
+        self.module_cache = {}
+
     def score(self, user, restaurant):
         return abs(self.scalar_product(user, restaurant) / (self.module(user) * self.module(restaurant)))
 
@@ -57,7 +65,11 @@ class CosineRecommender(Recommender):
         )
 
     def module(self, item):
-        return math.sqrt(sum(i**2 for i in self.ratings.aspects(item).values()))
+        if item in self.module_cache:
+            return self.module_cache[item]
+        else:
+            self.module_cache[item] = math.sqrt(sum(i ** 2 for i in self.ratings.aspects(item).values()))
+            return self.module_cache[item]
 
 
 class UserKNNRecommender(Recommender):
@@ -121,18 +133,23 @@ class RestaurantKNNRecommender(Recommender):
                         elif sim > self.knn_similarity[restaurant1][0][0]:
                             heapq.heapreplace(self.knn_similarity[restaurant1], (sim, restaurant2))
 
-    def recommend(self, topn):
+    def recommend(self, topn, test_restaurants=None):
         """
         :param topn: it limits the Ranking size to topn items.
+        :param test_restaurants: restaurants to test
         :return: a dictionary of a ranking per user.
         """
         recommendations = {}
 
-        for restaurant in self.ratings.restaurants():
+        if test_restaurants is None:
+            test_restaurants = self.ratings.restaurants()
+
+        for restaurant in test_restaurants:
             ranking = Ranking(topn)
 
             for user in self.ratings.users():
-                ranking.add(user, self.score(restaurant, user))
+                if self.ratings.restaurant_rating(restaurant, user) is None:
+                    ranking.add(user, self.score(restaurant, user))
 
             recommendations[restaurant] = ranking
 
