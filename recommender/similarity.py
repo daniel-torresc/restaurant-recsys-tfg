@@ -16,6 +16,10 @@ class CosineUserSimilarityAspects(Similarity):
     def __init__(self, ratings):
         super().__init__(ratings)
 
+        # Cache variables
+        self.module_cache = {}
+        self.aspects_cache = {}
+
         self.s = {}  # s[u1][u2] = similarity between users u1 and u2
         for index1, user1 in enumerate(self.ratings.users()):
             self.s[user1] = {}
@@ -35,8 +39,8 @@ class CosineUserSimilarityAspects(Similarity):
         return abs(self.scalar_product(user1, user2) / (self.module(user1) * self.module(user2)))
 
     def scalar_product(self, user1, user2):
-        aspects_user1 = set(self.ratings.aspects(user1).keys())
-        aspects_user2 = set(self.ratings.aspects(user2).keys())
+        aspects_user1 = self.aspects(user1)
+        aspects_user2 = self.aspects(user2)
         common_aspects = aspects_user1.intersection(aspects_user2)
 
         return sum(
@@ -46,13 +50,28 @@ class CosineUserSimilarityAspects(Similarity):
         )
 
     def module(self, user):
-        return math.sqrt(sum(i**2 for i in self.ratings.aspects(user).values()))
+        if user in self.module_cache:
+            return self.module_cache[user]
+        else:
+            self.module_cache[user] = math.sqrt(sum(i ** 2 for i in self.ratings.aspects(user).values()))
+            return self.module_cache[user]
+
+    def aspects(self, user):
+        if user in self.aspects_cache:
+            return self.aspects_cache[user]
+        else:
+            self.aspects_cache[user] = set(self.ratings.aspects(user).keys())
+            return self.aspects_cache[user]
 
 
 class CosineRestaurantSimilarityAspects(Similarity):
 
     def __init__(self, ratings):
         super().__init__(ratings)
+
+        # Cache variables
+        self.module_cache = {}
+        self.aspects_cache = {}
 
         self.s = {}  # s[r1][r2] = similarity between restaurants r1 and r2
         for index1, restaurant1 in enumerate(self.ratings.restaurants()):
@@ -73,8 +92,8 @@ class CosineRestaurantSimilarityAspects(Similarity):
         return abs(self.scalar_product(restaurant1, restaurant2) / (self.module(restaurant1) * self.module(restaurant2)))
 
     def scalar_product(self, restaurant1, restaurant2):
-        aspects_restaurant1 = set(self.ratings.aspects(restaurant1).keys())
-        aspects_restaurant2 = set(self.ratings.aspects(restaurant2).keys())
+        aspects_restaurant1 = self.aspects(restaurant1)
+        aspects_restaurant2 = self.aspects(restaurant2)
         common_aspects = aspects_restaurant1.intersection(aspects_restaurant2)
 
         return sum(
@@ -84,13 +103,28 @@ class CosineRestaurantSimilarityAspects(Similarity):
         )
 
     def module(self, restaurant):
-        return math.sqrt(sum(i**2 for i in self.ratings.aspects(restaurant).values()))
+        if restaurant in self.module_cache:
+            return self.module_cache[restaurant]
+        else:
+            self.module_cache[restaurant] = math.sqrt(sum(i ** 2 for i in self.ratings.aspects(restaurant).values()))
+            return self.module_cache[restaurant]
+
+    def aspects(self, restaurant):
+        if restaurant in self.aspects_cache:
+            return self.aspects_cache[restaurant]
+        else:
+            self.aspects_cache[restaurant] = set(self.ratings.aspects(restaurant).keys())
+            return self.aspects_cache[restaurant]
 
 
 class CosineUserSimilarityRatings(Similarity):
 
     def __init__(self, ratings):
         super().__init__(ratings)
+
+        # Cache variables
+        self.module_cache = {}
+        self.restaurants_cache = {}
 
         self.s = {}  # s[u1][u2] = similarity between users u1 and u2
         for index1, user1 in enumerate(self.ratings.users()):
@@ -111,8 +145,8 @@ class CosineUserSimilarityRatings(Similarity):
         return abs(self.scalar_product(user1, user2) / (self.module(user1) * self.module(user2)))
 
     def scalar_product(self, user1, user2):
-        restaurants_user1 = set(self.ratings.ratings(user1).keys())
-        restaurants_user2 = set(self.ratings.ratings(user2).keys())
+        restaurants_user1 = self.restaurants(user1)
+        restaurants_user2 = self.restaurants(user2)
         common_restaurants = restaurants_user1.intersection(restaurants_user2)
 
         return sum(
@@ -122,13 +156,28 @@ class CosineUserSimilarityRatings(Similarity):
         )
 
     def module(self, user):
-        return math.sqrt(sum(i**2 for i in self.ratings.ratings(user).values()))
+        if user in self.module_cache:
+            return self.module_cache[user]
+        else:
+            self.module_cache[user] = math.sqrt(sum(i ** 2 for i in self.ratings.ratings(user).values()))
+            return self.module_cache[user]
+
+    def restaurants(self, user):
+        if user in self.restaurants_cache:
+            return self.restaurants_cache[user]
+        else:
+            self.restaurants_cache[user] = set(self.ratings.ratings(user).keys())
+            return self.restaurants_cache[user]
 
 
 class CosineRestaurantSimilarityRatings(Similarity):
 
     def __init__(self, ratings):
         super().__init__(ratings)
+
+        # Cache variables
+        self.module_cache = {}
+        self.users_cache = {}
 
         self.s = {}  # s[r1][r2] = similarity between restaurants r1 and r2
         for index1, restaurant1 in enumerate(self.ratings.restaurants()):
@@ -149,8 +198,8 @@ class CosineRestaurantSimilarityRatings(Similarity):
         return abs(self.scalar_product(restaurant1, restaurant2) / (self.module(restaurant1) * self.module(restaurant2)))
 
     def scalar_product(self, restaurant1, restaurant2):
-        users_restaurant1 = set(self.ratings.ratings(restaurant1).keys())
-        users_restaurant2 = set(self.ratings.ratings(restaurant2).keys())
+        users_restaurant1 = self.users(restaurant1)
+        users_restaurant2 = self.users(restaurant2)
         common_users = users_restaurant1.intersection(users_restaurant2)
 
         return sum(
@@ -160,4 +209,15 @@ class CosineRestaurantSimilarityRatings(Similarity):
         )
 
     def module(self, restaurant):
-        return math.sqrt(sum(i**2 for i in self.ratings.ratings(restaurant).values()))
+        if restaurant in self.module_cache:
+            return self.module_cache[restaurant]
+        else:
+            self.module_cache[restaurant] = math.sqrt(sum(i ** 2 for i in self.ratings.ratings(restaurant).values()))
+            return self.module_cache[restaurant]
+
+    def users(self, restaurant):
+        if restaurant in self.users_cache:
+            return self.users_cache[restaurant]
+        else:
+            self.users_cache[restaurant] = set(self.ratings.ratings(restaurant).keys())
+            return self.users_cache[restaurant]
