@@ -53,6 +53,9 @@ class Ranking:
     def __repr__(self):
         r = ""
         for item, score in self:
-            r += f"\t\t[{item}] : {score}\n"
+            r += f"\t\tRestaurant [{item}] : {score}\n"
 
         return r[:-1]
+
+    def __len__(self):
+        return len([x for x in self])
