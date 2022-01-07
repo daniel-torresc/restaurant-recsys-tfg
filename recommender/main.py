@@ -126,7 +126,7 @@ if __name__ == "__main__":
         Precision(test, cutoff=10, threshold=args.threshold),
         Recall(test, cutoff=10, threshold=args.threshold),
         Precision(test, cutoff=20, threshold=args.threshold),
-        Recall(test, cutoff=20, threshold=args.threshold)
+        Recall(test, cutoff=20, threshold=args.threshold),
         Precision(test, cutoff=50, threshold=args.threshold),
         Recall(test, cutoff=50, threshold=args.threshold)
     ]
