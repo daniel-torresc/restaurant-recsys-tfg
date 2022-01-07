@@ -144,14 +144,14 @@ class RestaurantKNNRecommender(Recommender):
         if test_restaurants is None:
             test_restaurants = self.ratings.restaurants()
 
-        for restaurant in test_restaurants:
+        for user in self.ratings.users():
             ranking = Ranking(topn)
 
-            for user in self.ratings.users():
+            for restaurant in test_restaurants:
                 if self.ratings.restaurant_rating(restaurant, user) is None:
-                    ranking.add(user, self.score(restaurant, user))
+                    ranking.add(restaurant, self.score(restaurant, user))
 
-            recommendations[restaurant] = ranking
+            recommendations[user] = ranking
 
         return recommendations
 
