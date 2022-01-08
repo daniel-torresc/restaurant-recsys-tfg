@@ -8,7 +8,7 @@ from recommenders import Recommender, CosineRecommender, UserKNNRecommender, Res
 from similarity import CosineUserSimilarityAspects, CosineRestaurantSimilarityAspects, CosineUserSimilarityRatings, \
     CosineRestaurantSimilarityRatings
 from ratings import Ratings
-from evaluation.metrics import Precision, Recall, Metric
+from metrics import Precision, Recall, Metric
 
 
 def test_recommenders(recommender: str, ratings: Ratings, metrics: list[Metric], k: int, topn: int, test_items: int):
