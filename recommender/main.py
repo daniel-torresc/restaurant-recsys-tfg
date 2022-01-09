@@ -5,7 +5,7 @@ import pandas as pd
 import argparse
 from sklearn.model_selection import train_test_split
 from recommenders import Recommender, CosineRecommender, UserKNNRecommender, RestaurantKNNRecommender
-from similarity import CosineUserSimilarityAspects, CosineRestaurantSimilarityAspects, CosineUserSimilarityRatings, \
+from similarities import CosineUserSimilarityAspects, CosineRestaurantSimilarityAspects, CosineUserSimilarityRatings, \
     CosineRestaurantSimilarityRatings
 from ratings import Ratings
 from metrics import Precision, Recall, Metric
