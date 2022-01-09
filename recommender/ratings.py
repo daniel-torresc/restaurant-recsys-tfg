@@ -1,3 +1,4 @@
+import statistics
 
 
 class Ratings:
@@ -23,11 +24,10 @@ class Ratings:
                 rate = row['rate']
                 restaurant = row['restaurant_id']
 
-                # TODO: hacer una buena ponderacion entre el rate y el feeling
-                weighted_score = 0.6 * rate + 0.4 * row['feeling'] * 5
+                weighted_score = rate * row['feeling']
 
                 self.user_aspects[user].setdefault(aspect, weighted_score)
-                self.user_aspects[user][aspect] = 0.5 * self.user_aspects[user][aspect] + 0.5 * weighted_score
+                self.user_aspects[user][aspect] = statistics.mean([self.user_aspects[user][aspect], weighted_score])
 
                 self.ratings_of_user[user][restaurant] = rate
 
@@ -42,11 +42,10 @@ class Ratings:
                 rate = row['rate']
                 user = row['user_id']
 
-                # TODO: hacer una buena ponderacion entre el rate y el feeling
-                weighted_score = 0.6 * rate + 0.4 * row['feeling'] * 5
+                weighted_score = rate * row['feeling']
 
                 self.restaurant_aspects[restaurant].setdefault(aspect, weighted_score)
-                self.restaurant_aspects[restaurant][aspect] = 0.5 * self.restaurant_aspects[restaurant][aspect] + 0.5 * weighted_score
+                self.restaurant_aspects[restaurant][aspect] = statistics.mean([self.restaurant_aspects[restaurant][aspect], weighted_score])
 
                 self.ratings_of_restaurant[restaurant][user] = rate
 
@@ -78,7 +77,7 @@ class Ratings:
             if aspect in self.restaurant_aspects[item]:
                 return self.restaurant_aspects[item][aspect]
 
-        return None  # TODO: create rating_not_exists exception and throw here
+        return None
 
     def aspects(self, item):
         if item in self.user_aspects:
