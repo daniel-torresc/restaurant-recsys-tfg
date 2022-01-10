@@ -24,7 +24,7 @@ class Ratings:
                 rate = row['rate']
                 restaurant = row['restaurant_id']
 
-                weighted_score = rate * row['feeling']
+                weighted_score = 0.8 * rate + 0.2 * row['feeling'] * 5
 
                 self.user_aspects[user].setdefault(aspect, weighted_score)
                 self.user_aspects[user][aspect] = statistics.mean([self.user_aspects[user][aspect], weighted_score])
@@ -42,18 +42,18 @@ class Ratings:
                 rate = row['rate']
                 user = row['user_id']
 
-                weighted_score = rate * row['feeling']
+                weighted_score = 0.8 * rate + 0.2 * row['feeling'] * 5
 
                 self.restaurant_aspects[restaurant].setdefault(aspect, weighted_score)
                 self.restaurant_aspects[restaurant][aspect] = statistics.mean([self.restaurant_aspects[restaurant][aspect], weighted_score])
 
                 self.ratings_of_restaurant[restaurant][user] = rate
 
-    def ratings(self, item):
-        if item in self.users():
-            return self.ratings_of_user[item]
-        elif item in self.restaurants():
-            return self.ratings_of_restaurant[item]
+    def ratings(self, obj):
+        if obj in self.users():
+            return self.ratings_of_user[obj]
+        elif obj in self.restaurants():
+            return self.ratings_of_restaurant[obj]
 
         return None
 
@@ -69,21 +69,21 @@ class Ratings:
         except KeyError:
             return None
 
-    def aspect_weight(self, item, aspect):
-        if item in self.users():
-            if aspect in self.user_aspects[item]:
-                return self.user_aspects[item][aspect]
-        elif item in self.restaurants():
-            if aspect in self.restaurant_aspects[item]:
-                return self.restaurant_aspects[item][aspect]
+    def aspect_weight(self, obj, aspect):
+        if obj in self.users():
+            if aspect in self.user_aspects[obj]:
+                return self.user_aspects[obj][aspect]
+        elif obj in self.restaurants():
+            if aspect in self.restaurant_aspects[obj]:
+                return self.restaurant_aspects[obj][aspect]
 
         return None
 
-    def aspects(self, item):
-        if item in self.user_aspects:
-            return self.user_aspects[item]
-        elif item in self.restaurant_aspects:
-            return self.restaurant_aspects[item]
+    def aspects(self, obj):
+        if obj in self.user_aspects:
+            return self.user_aspects[obj]
+        elif obj in self.restaurant_aspects:
+            return self.restaurant_aspects[obj]
 
         return None
 
