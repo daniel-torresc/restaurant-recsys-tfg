@@ -4,11 +4,10 @@ import time
 import pandas as pd
 import argparse
 from sklearn.model_selection import train_test_split
-from recommenders import Recommender, CosineRecommender, UserKNNRecommender, RestaurantKNNRecommender
-from similarities import CosineUserSimilarityAspects, CosineRestaurantSimilarityAspects, CosineUserSimilarityRatings, \
-    CosineRestaurantSimilarityRatings
+from recommender import *
+from similarity import *
 from ratings import Ratings
-from metrics import Precision, Recall, Metric
+from metrics import *
 
 
 def test_recommenders(recommender: str, ratings: Ratings, metrics: list[Metric], k: int, topn: int, test_items: int):
@@ -104,6 +103,16 @@ if __name__ == "__main__":
         choices=["5k", "10k", "complete"],
         required=True,
         help="Dataset to test")
+    parser.add_argument(
+        "-k",
+        type=int,
+        required=True,
+        help="Number of K neighbors users for the recommender")
+    parser.add_argument(
+        "--topn",
+        type=int,
+        required=True,
+        help="Size of the recommendation ranking")
     args = parser.parse_args()
 
     start_time_importing = time.process_time()
@@ -131,4 +140,4 @@ if __name__ == "__main__":
         Recall(test, cutoff=50, threshold=args.threshold)
     ]
 
-    test_recommenders(args.recommender, train, metrics, k=10, topn=100, test_items=args.test_items)
+    test_recommenders(args.recommender, train, metrics, k=args.k, topn=args.topn, test_items=args.test_items)
