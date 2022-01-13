@@ -27,7 +27,7 @@ class Recommender(ABC):
             ranking = Ranking(topn)
 
             for restaurant in self.ratings.restaurants():
-                if self.ratings.user_rating(user, restaurant) is None:
+                if self.ratings.user_rating(user, restaurant) == 0:
                     ranking.add(restaurant, self.score(user, restaurant))
 
             recommendations[user] = ranking
@@ -160,7 +160,7 @@ class RestaurantKNNRecommender(Recommender):
             ranking = Ranking(topn)
 
             for restaurant in test_restaurants:
-                if self.ratings.restaurant_rating(restaurant, user) is None:
+                if self.ratings.restaurant_rating(restaurant, user) == 0:
                     ranking.add(restaurant, self.score(restaurant, user))
 
             recommendations[user] = ranking

@@ -17,7 +17,7 @@ class Similarity(ABC):
 class CosineUserSimilarityAspects(Similarity):
 
     def __init__(self, ratings):
-        print(f"Building {self}...", end='', flush=True)
+        print(f"Building {self}...")
 
         super().__init__(ratings)
 
@@ -40,7 +40,10 @@ class CosineUserSimilarityAspects(Similarity):
                 self.s[user1][user2] = sim
                 self.s[user2][user1] = sim
 
-        print("DONE")
+            if (index1+1) % 1000 == 0:
+                print(f"\tProcessed {index1+1} out of {len(self.ratings.restaurants())} restaurants")
+
+        print("\tDONE")
 
     def sim(self, user1, user2):
         return abs(self.scalar_product(user1, user2) / (self.module(user1) * self.module(user2)))
@@ -74,7 +77,7 @@ class CosineUserSimilarityAspects(Similarity):
 class CosineRestaurantSimilarityAspects(Similarity):
 
     def __init__(self, ratings):
-        print(f"Building {self}...", end='', flush=True)
+        print(f"Building {self}...")
 
         super().__init__(ratings)
 
@@ -97,7 +100,10 @@ class CosineRestaurantSimilarityAspects(Similarity):
                 self.s[restaurant1][restaurant2] = sim
                 self.s[restaurant2][restaurant1] = sim
 
-        print("DONE")
+            if (index1+1) % 1000 == 0:
+                print(f"\tProcessed {index1+1} out of {len(self.ratings.restaurants())} restaurants")
+
+        print("\tDONE")
 
     def sim(self, restaurant1, restaurant2):
         return abs(self.scalar_product(restaurant1, restaurant2) / (self.module(restaurant1) * self.module(restaurant2)))
@@ -131,7 +137,7 @@ class CosineRestaurantSimilarityAspects(Similarity):
 class CosineUserSimilarityRatings(Similarity):
 
     def __init__(self, ratings):
-        print(f"Building {self}...", end='', flush=True)
+        print(f"Building {self}...")
 
         super().__init__(ratings)
 
@@ -154,7 +160,10 @@ class CosineUserSimilarityRatings(Similarity):
                 self.s[user1][user2] = sim
                 self.s[user2][user1] = sim
 
-        print("DONE")
+            if (index1+1) % 1000 == 0:
+                print(f"\tProcessed {index1+1} out of {len(self.ratings.restaurants())} restaurants")
+
+        print("\tDONE")
 
     def sim(self, user1, user2):
         return abs(self.scalar_product(user1, user2) / (self.module(user1) * self.module(user2)))
@@ -188,7 +197,7 @@ class CosineUserSimilarityRatings(Similarity):
 class CosineRestaurantSimilarityRatings(Similarity):
 
     def __init__(self, ratings):
-        print(f"Building {self}...", end='', flush=True)
+        print(f"Building {self}...")
 
         super().__init__(ratings)
 
@@ -211,7 +220,10 @@ class CosineRestaurantSimilarityRatings(Similarity):
                 self.s[restaurant1][restaurant2] = sim
                 self.s[restaurant2][restaurant1] = sim
 
-        print("DONE")
+            if (index1+1) % 1000 == 0:
+                print(f"\tProcessed {index1+1} out of {len(self.ratings.restaurants())} restaurants")
+
+        print("\tDONE")
 
     def sim(self, restaurant1, restaurant2):
         return abs(self.scalar_product(restaurant1, restaurant2) / (self.module(restaurant1) * self.module(restaurant2)))

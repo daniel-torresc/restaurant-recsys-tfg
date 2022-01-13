@@ -27,6 +27,9 @@ class Ratings:
             self.records_of_restaurant.setdefault(record['restaurant_id'], [])
             self.records_of_restaurant[record['restaurant_id']].append(dict_aux)
 
+        self.all_users = list(self.records_of_user.keys())
+        self.all_restaurants = list(self.records_of_restaurant.keys())
+
         self.user_aspects = {}  # weighted aspects for each user
         self.restaurant_aspects = {}  # weighted aspects for each restaurant
 
@@ -108,7 +111,7 @@ class Ratings:
         return None
 
     def users(self):
-        return self.records_of_user.keys()
+        return self.all_users
 
     def restaurants(self):
-        return self.records_of_restaurant.keys()
+        return self.all_restaurants
