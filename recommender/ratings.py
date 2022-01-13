@@ -4,8 +4,28 @@ import statistics
 class Ratings:
 
     def __init__(self, df):
-        self.all_users = sorted(df['user_id'].unique())  # list of all users
-        self.all_restaurants = sorted(df['restaurant_id'].unique())  # list of all restaurants
+        self.records_of_user = {}
+        self.records_of_restaurant = {}
+
+        records = df.to_dict(orient='records')
+        for record in records:
+            dict_aux = {
+                'aspect': record['aspect'],
+                'rate': record['rate'],
+                'restaurant': record['restaurant_id'],
+                'feeling': record['feeling']
+            }
+            self.records_of_user.setdefault(record['user_id'], [])
+            self.records_of_user[record['user_id']].append(dict_aux)
+
+            dict_aux = {
+                'aspect': record['aspect'],
+                'rate': record['rate'],
+                'user': record['user_id'],
+                'feeling': record['feeling']
+            }
+            self.records_of_restaurant.setdefault(record['restaurant_id'], [])
+            self.records_of_restaurant[record['restaurant_id']].append(dict_aux)
 
         self.user_aspects = {}  # weighted aspects for each user
         self.restaurant_aspects = {}  # weighted aspects for each restaurant
@@ -14,17 +34,17 @@ class Ratings:
         self.ratings_of_restaurant = {}  # scores of the restaurant from the users
 
         # Calculate the weight of each aspect for every user
-        for user in self.all_users:
-            aux_df = df.loc[df['user_id'] == user]  # Create subset with only the rows where user == user_id
+        for user in self.records_of_user:
             self.user_aspects[user] = {}
             self.ratings_of_user[user] = {}
 
-            for _, row in aux_df.iterrows():
-                aspect = row['aspect']
-                rate = row['rate']
-                restaurant = row['restaurant_id']
+            for record in self.records_of_user[user]:
+                aspect = record['aspect']
+                rate = record['rate']
+                restaurant = record['restaurant']
+                feeling = record['feeling']
 
-                weighted_score = 0.8 * rate + 0.2 * row['feeling'] * 5
+                weighted_score = 0.6 * rate + 0.4 * feeling * 5
 
                 self.user_aspects[user].setdefault(aspect, weighted_score)
                 self.user_aspects[user][aspect] = statistics.mean([self.user_aspects[user][aspect], weighted_score])
@@ -32,17 +52,17 @@ class Ratings:
                 self.ratings_of_user[user][restaurant] = rate
 
         # Calculate the weight of each aspect for every restaurant
-        for restaurant in self.all_restaurants:
-            aux_df = df.loc[df['restaurant_id'] == restaurant]
+        for restaurant in self.records_of_restaurant:
             self.restaurant_aspects[restaurant] = {}
             self.ratings_of_restaurant[restaurant] = {}
 
-            for _, row in aux_df.iterrows():
-                aspect = row['aspect']
-                rate = row['rate']
-                user = row['user_id']
+            for record in self.records_of_restaurant[restaurant]:
+                aspect = record['aspect']
+                rate = record['rate']
+                user = record['user']
+                feeling = record['feeling']
 
-                weighted_score = 0.8 * rate + 0.2 * row['feeling'] * 5
+                weighted_score = 0.6 * rate + 0.4 * feeling * 5
 
                 self.restaurant_aspects[restaurant].setdefault(aspect, weighted_score)
                 self.restaurant_aspects[restaurant][aspect] = statistics.mean([self.restaurant_aspects[restaurant][aspect], weighted_score])
@@ -88,7 +108,7 @@ class Ratings:
         return None
 
     def users(self):
-        return self.all_users
+        return self.records_of_user.keys()
 
     def restaurants(self):
-        return self.all_restaurants
+        return self.records_of_restaurant.keys()

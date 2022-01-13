@@ -45,10 +45,14 @@ class CosineRecommender(Recommender):
     """
 
     def __init__(self, ratings):
+        print(f"Building {self}...", end='', flush=True)
+
         super().__init__(ratings)
 
         # Cache variables
         self.module_cache = {}
+
+        print("DONE")
 
     def score(self, user, restaurant):
         return abs(self.scalar_product(user, restaurant) / (self.module(user) * self.module(restaurant)))
@@ -78,6 +82,8 @@ class UserKNNRecommender(Recommender):
     """
 
     def __init__(self, ratings, sim, k):
+        print(f"Building {self}...", end='', flush=True)
+
         super().__init__(ratings)
 
         self.sim = sim
@@ -97,6 +103,8 @@ class UserKNNRecommender(Recommender):
                         elif sim > self.knn_similarity[user1][0][0]:
                             heapq.heapreplace(self.knn_similarity[user1], (sim, user2))
 
+        print("DONE")
+
     def score(self, user, restaurant):
         heap = self.knn_similarity[user]
 
@@ -114,6 +122,8 @@ class RestaurantKNNRecommender(Recommender):
     """
 
     def __init__(self, ratings, sim, k):
+        print(f"Building {self}...", end='', flush=True)
+
         super().__init__(ratings)
 
         self.sim = sim
@@ -132,6 +142,8 @@ class RestaurantKNNRecommender(Recommender):
                             heapq.heappush(self.knn_similarity[restaurant1], (sim, restaurant2))
                         elif sim > self.knn_similarity[restaurant1][0][0]:
                             heapq.heapreplace(self.knn_similarity[restaurant1], (sim, restaurant2))
+
+        print("DONE")
 
     def recommend(self, topn, test_restaurants=None):
         """

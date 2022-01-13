@@ -60,9 +60,12 @@ def test_recommenders(recommender: str, ratings: Ratings, metrics: list[Metric],
 
 
 def test_recommender(recommender: Recommender, topn: int, metrics: list[Metric], test_items: list = None):
-    print(f"Testing {recommender} - Top {topn}")
+    print(f"\nTesting {recommender} - Top {topn}")
 
+    print("\tBuilding recommendations...", end='', flush=True)
     recommendation = recommender.recommend(topn, test_items)
+    print("DONE")
+
     for metric in metrics:
         mean, stddev = metric.compute(recommendation)
         print(f"\t{metric}\n\t\tmean={mean}\tstddev={stddev}")
@@ -123,12 +126,20 @@ if __name__ == "__main__":
     else:
         df_annotations = pd.read_pickle("dataset/annotations_dataset.pickle")
     elapsed_time_importing = datetime.timedelta(seconds=round(time.process_time() - start_time_importing))
-    print(f"\nElapsed time importing dataset --> {elapsed_time_importing}\n")
+    print(f"Elapsed time importing dataset --> {elapsed_time_importing}")
 
+    start_time_importing = time.process_time()
     train_df, test_df = train_test_split(df_annotations, test_size=args.test_size, random_state=1)
+    elapsed_time_importing = datetime.timedelta(seconds=round(time.process_time() - start_time_importing))
+    print(f"Elapsed time spliting dataset into test-train --> {elapsed_time_importing}")
+
+    start_time_importing = time.process_time()
     train = Ratings(train_df)
     test = Ratings(test_df)
+    elapsed_time_importing = datetime.timedelta(seconds=round(time.process_time() - start_time_importing))
+    print(f"Elapsed time generating ratings --> {elapsed_time_importing}")
 
+    start_time_importing = time.process_time()
     metrics = [
         Precision(test, cutoff=5, threshold=args.threshold),
         Recall(test, cutoff=5, threshold=args.threshold),
@@ -139,5 +150,7 @@ if __name__ == "__main__":
         Precision(test, cutoff=50, threshold=args.threshold),
         Recall(test, cutoff=50, threshold=args.threshold)
     ]
+    elapsed_time_importing = datetime.timedelta(seconds=round(time.process_time() - start_time_importing))
+    print(f"Elapsed time loading metrics --> {elapsed_time_importing}\n")
 
     test_recommenders(args.recommender, train, metrics, k=args.k, topn=args.topn, test_items=args.test_items)

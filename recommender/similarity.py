@@ -5,6 +5,9 @@ from abc import ABC, abstractmethod
 class Similarity(ABC):
     def __init__(self, ratings):
         self.ratings = ratings
+        
+    def __repr__(self):
+        return type(self).__name__
 
     @abstractmethod
     def sim(self, item1, item2):
@@ -14,6 +17,8 @@ class Similarity(ABC):
 class CosineUserSimilarityAspects(Similarity):
 
     def __init__(self, ratings):
+        print(f"Building {self}...", end='', flush=True)
+
         super().__init__(ratings)
 
         # Cache variables
@@ -34,6 +39,8 @@ class CosineUserSimilarityAspects(Similarity):
                 sim = self.sim(user1, user2)
                 self.s[user1][user2] = sim
                 self.s[user2][user1] = sim
+
+        print("DONE")
 
     def sim(self, user1, user2):
         return abs(self.scalar_product(user1, user2) / (self.module(user1) * self.module(user2)))
@@ -67,6 +74,8 @@ class CosineUserSimilarityAspects(Similarity):
 class CosineRestaurantSimilarityAspects(Similarity):
 
     def __init__(self, ratings):
+        print(f"Building {self}...", end='', flush=True)
+
         super().__init__(ratings)
 
         # Cache variables
@@ -87,6 +96,8 @@ class CosineRestaurantSimilarityAspects(Similarity):
                 sim = self.sim(restaurant1, restaurant2)
                 self.s[restaurant1][restaurant2] = sim
                 self.s[restaurant2][restaurant1] = sim
+
+        print("DONE")
 
     def sim(self, restaurant1, restaurant2):
         return abs(self.scalar_product(restaurant1, restaurant2) / (self.module(restaurant1) * self.module(restaurant2)))
@@ -120,6 +131,8 @@ class CosineRestaurantSimilarityAspects(Similarity):
 class CosineUserSimilarityRatings(Similarity):
 
     def __init__(self, ratings):
+        print(f"Building {self}...", end='', flush=True)
+
         super().__init__(ratings)
 
         # Cache variables
@@ -140,6 +153,8 @@ class CosineUserSimilarityRatings(Similarity):
                 sim = self.sim(user1, user2)
                 self.s[user1][user2] = sim
                 self.s[user2][user1] = sim
+
+        print("DONE")
 
     def sim(self, user1, user2):
         return abs(self.scalar_product(user1, user2) / (self.module(user1) * self.module(user2)))
@@ -173,6 +188,8 @@ class CosineUserSimilarityRatings(Similarity):
 class CosineRestaurantSimilarityRatings(Similarity):
 
     def __init__(self, ratings):
+        print(f"Building {self}...", end='', flush=True)
+
         super().__init__(ratings)
 
         # Cache variables
@@ -193,6 +210,8 @@ class CosineRestaurantSimilarityRatings(Similarity):
                 sim = self.sim(restaurant1, restaurant2)
                 self.s[restaurant1][restaurant2] = sim
                 self.s[restaurant2][restaurant1] = sim
+
+        print("DONE")
 
     def sim(self, restaurant1, restaurant2):
         return abs(self.scalar_product(restaurant1, restaurant2) / (self.module(restaurant1) * self.module(restaurant2)))
