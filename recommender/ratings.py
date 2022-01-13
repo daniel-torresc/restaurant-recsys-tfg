@@ -81,13 +81,13 @@ class Ratings:
         try:
             return self.ratings_of_user[user][restaurant]
         except KeyError:
-            return None
+            return 0
 
     def restaurant_rating(self, restaurant, user):
         try:
             return self.ratings_of_restaurant[restaurant][user]
         except KeyError:
-            return None
+            return 0
 
     def aspect_weight(self, obj, aspect):
         if obj in self.users():
@@ -97,7 +97,7 @@ class Ratings:
             if aspect in self.restaurant_aspects[obj]:
                 return self.restaurant_aspects[obj][aspect]
 
-        return None
+        return 0
 
     def aspects(self, obj):
         if obj in self.user_aspects:
