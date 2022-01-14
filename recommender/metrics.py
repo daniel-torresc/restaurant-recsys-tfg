@@ -21,7 +21,7 @@ class Metric(ABC):
 
         for index, rec in enumerate(recommendations, start=1):
             rate = self.test.user_rating(user, rec[0])
-            if rate != 0 and rate >= self.threshold:
+            if rate >= self.threshold:
                 relevant_recommendations += 1
 
             if index == self.cutoff:
@@ -54,8 +54,8 @@ class Recall(Metric):
         for user in self.test.users():
             self.relevant_user[user] = 0
 
-            for rating in self.test.ratings(user):
-                if self.test.ratings(user)[rating] >= self.threshold:
+            for _, rating in self.test.ratings(user).items():
+                if rating >= self.threshold:
                     self.relevant_user[user] += 1
 
     def compute(self, recommendation):

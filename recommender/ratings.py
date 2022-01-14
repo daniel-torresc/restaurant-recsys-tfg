@@ -73,9 +73,9 @@ class Ratings:
                 self.ratings_of_restaurant[restaurant][user] = rate
 
     def ratings(self, obj):
-        if obj in self.users():
+        if obj in self.ratings_of_user:
             return self.ratings_of_user[obj]
-        elif obj in self.restaurants():
+        elif obj in self.ratings_of_restaurant:
             return self.ratings_of_restaurant[obj]
 
         return None
@@ -93,10 +93,10 @@ class Ratings:
             return 0
 
     def aspect_weight(self, obj, aspect):
-        if obj in self.users():
+        if obj in self.user_aspects:
             if aspect in self.user_aspects[obj]:
                 return self.user_aspects[obj][aspect]
-        elif obj in self.restaurants():
+        elif obj in self.restaurant_aspects:
             if aspect in self.restaurant_aspects[obj]:
                 return self.restaurant_aspects[obj][aspect]
 

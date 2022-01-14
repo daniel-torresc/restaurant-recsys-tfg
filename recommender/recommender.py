@@ -111,8 +111,7 @@ class UserKNNRecommender(Recommender):
         return sum(
             sim * self.ratings.user_rating(user2, restaurant)
             for sim, user2 in heap
-            if restaurant in self.ratings.ratings(user2).keys()
-            and self.ratings.user_rating(user2, restaurant) != 0
+            if self.ratings.user_rating(user2, restaurant) != 0
         )
 
 
@@ -173,6 +172,5 @@ class RestaurantKNNRecommender(Recommender):
         return sum(
             sim * self.ratings.restaurant_rating(restaurant2, user)
             for sim, restaurant2 in heap
-            if user in self.ratings.ratings(restaurant2).keys()
-            and self.ratings.restaurant_rating(restaurant2, user) != 0
+            if self.ratings.restaurant_rating(restaurant2, user) != 0
         )
