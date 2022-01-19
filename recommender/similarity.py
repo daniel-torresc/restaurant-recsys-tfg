@@ -41,7 +41,7 @@ class CosineUserSimilarityAspects(Similarity):
                 self.s[user2][user1] = sim
 
             if (index1+1) % 1000 == 0:
-                print(f"\tProcessed {index1+1} out of {len(self.ratings.restaurants())} restaurants")
+                print(f"\tProcessed {index1+1} out of {len(self.ratings.users())} users")
 
         print("\tDONE")
 
@@ -54,8 +54,8 @@ class CosineUserSimilarityAspects(Similarity):
         common_aspects = aspects_user1.intersection(aspects_user2)
 
         return sum(
-            self.ratings.aspect_weight(user1, aspect)
-            * self.ratings.aspect_weight(user2, aspect)
+            self.ratings.aspect_user_weight(user1, aspect)
+            * self.ratings.aspect_user_weight(user2, aspect)
             for aspect in common_aspects
         )
 
@@ -114,8 +114,8 @@ class CosineRestaurantSimilarityAspects(Similarity):
         common_aspects = aspects_restaurant1.intersection(aspects_restaurant2)
 
         return sum(
-            self.ratings.aspect_weight(restaurant1, aspect)
-            * self.ratings.aspect_weight(restaurant2, aspect)
+            self.ratings.aspect_restaurant_weight(restaurant1, aspect)
+            * self.ratings.aspect_restaurant_weight(restaurant2, aspect)
             for aspect in common_aspects
         )
 
@@ -161,7 +161,7 @@ class CosineUserSimilarityRatings(Similarity):
                 self.s[user2][user1] = sim
 
             if (index1+1) % 1000 == 0:
-                print(f"\tProcessed {index1+1} out of {len(self.ratings.restaurants())} restaurants")
+                print(f"\tProcessed {index1+1} out of {len(self.ratings.users())} users")
 
         print("\tDONE")
 

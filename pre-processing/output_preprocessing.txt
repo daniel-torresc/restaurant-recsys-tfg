@@ -1,0 +1,11 @@
+Elapsed time importing datasets --> 0:02:55
+
+Elapsed time keeping specific columns --> 0:00:12
+
+Elapsed time filtering --> 0:00:35
+
+Number of total users: 10309
+Number of total restaurants: 6439
+
+Elapsed time persisting datasets --> 0:00:01
+

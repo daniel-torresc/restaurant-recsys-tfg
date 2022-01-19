@@ -27,8 +27,8 @@ class Ratings:
             self.records_of_restaurant.setdefault(record['restaurant_id'], [])
             self.records_of_restaurant[record['restaurant_id']].append(dict_aux)
 
-        self.all_users = list(self.records_of_user.keys())
-        self.all_restaurants = list(self.records_of_restaurant.keys())
+        # self.all_users = list(self.records_of_user.keys())
+        # self.all_restaurants = list(self.records_of_restaurant.keys())
 
         self.user_aspects = {}  # weighted aspects for each user
         self.restaurant_aspects = {}  # weighted aspects for each restaurant
@@ -92,16 +92,6 @@ class Ratings:
         except KeyError:
             return 0
 
-    def aspect_weight(self, obj, aspect):
-        if obj in self.user_aspects:
-            if aspect in self.user_aspects[obj]:
-                return self.user_aspects[obj][aspect]
-        elif obj in self.restaurant_aspects:
-            if aspect in self.restaurant_aspects[obj]:
-                return self.restaurant_aspects[obj][aspect]
-
-        return 0
-
     def aspects(self, obj):
         if obj in self.user_aspects:
             return self.user_aspects[obj]
@@ -110,8 +100,20 @@ class Ratings:
 
         return None
 
+    def aspect_user_weight(self, user, aspect):
+        try:
+            return self.user_aspects[user][aspect]
+        except KeyError:
+            return 0
+
+    def aspect_restaurant_weight(self, restaurant, aspect):
+        try:
+            return self.restaurant_aspects[restaurant][aspect]
+        except KeyError:
+            return 0
+
     def users(self):
-        return self.all_users
+        return self.records_of_user
 
     def restaurants(self):
-        return self.all_restaurants
+        return self.records_of_restaurant

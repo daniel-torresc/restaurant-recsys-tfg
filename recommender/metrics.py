@@ -39,7 +39,8 @@ class Precision(Metric):
         precision_list = []
         for user in recommendation:
             relevant_recommendations = self.get_relevant_recommendations(user, recommendation[user])
-            precision = relevant_recommendations / min(self.cutoff, len(recommendation[user]))
+            den = min(self.cutoff, len(recommendation[user]))
+            precision = relevant_recommendations / den if den > 0 else 0
 
             precision_list.append(precision)
 

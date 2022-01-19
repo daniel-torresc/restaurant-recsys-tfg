@@ -39,18 +39,18 @@ def test_recommenders(recommender: str, ratings: Ratings, metrics: list[Metric],
             test_recommender(UserKNNRecommender(ratings, CosineUserSimilarityAspects(ratings), k), topn, metrics)
     elif recommender == "ib":
         if test_items:
-            all_restaurants = list(ratings.restaurants())
-            random.Random(2).shuffle(all_restaurants)
-            test_restaurants = all_restaurants[:test_items]
-            test_recommender(RestaurantKNNRecommender(ratings, CosineRestaurantSimilarityRatings(ratings), k), topn, metrics, test_restaurants)
+            all_users = list(ratings.users())
+            random.Random(2).shuffle(all_users)
+            test_users = all_users[:test_items]
+            test_recommender(RestaurantKNNRecommender(ratings, CosineRestaurantSimilarityRatings(ratings), k), topn, metrics, test_users)
         else:
             test_recommender(RestaurantKNNRecommender(ratings, CosineRestaurantSimilarityRatings(ratings), k), topn, metrics)
     elif recommender == "cbib":
         if test_items:
-            all_restaurants = list(ratings.restaurants())
-            random.Random(2).shuffle(all_restaurants)
-            test_restaurants = all_restaurants[:test_items]
-            test_recommender(RestaurantKNNRecommender(ratings, CosineRestaurantSimilarityAspects(ratings), k), topn, metrics, test_restaurants)
+            all_users = list(ratings.users())
+            random.Random(2).shuffle(all_users)
+            test_users = all_users[:test_items]
+            test_recommender(RestaurantKNNRecommender(ratings, CosineRestaurantSimilarityAspects(ratings), k), topn, metrics, test_users)
         else:
             test_recommender(RestaurantKNNRecommender(ratings, CosineRestaurantSimilarityAspects(ratings), k), topn, metrics)
 
@@ -62,9 +62,9 @@ def test_recommenders(recommender: str, ratings: Ratings, metrics: list[Metric],
 def test_recommender(recommender: Recommender, topn: int, metrics: list[Metric], test_items: list = None):
     print(f"\nTesting {recommender} - Top {topn}")
 
-    print("\tBuilding recommendations...", end='', flush=True)
+    print("\tBuilding recommendations...")
     recommendation = recommender.recommend(topn, test_items)
-    print("DONE")
+    print("\tDONE")
 
     for metric in metrics:
         mean, stddev = metric.compute(recommendation)

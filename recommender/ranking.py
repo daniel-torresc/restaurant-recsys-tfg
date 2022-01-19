@@ -28,6 +28,7 @@ class Ranking:
 
     def __init__(self, topn):
         self.heap = []
+        self.ranking = []
         self.topn = topn
         self.changed = 0
 

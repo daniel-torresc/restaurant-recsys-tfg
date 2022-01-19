@@ -23,7 +23,7 @@ class Recommender(ABC):
         if test_users is None:
             test_users = self.ratings.users()
 
-        for user in test_users:
+        for index, user in enumerate(test_users):
             ranking = Ranking(topn)
 
             for restaurant in self.ratings.restaurants():
@@ -31,6 +31,9 @@ class Recommender(ABC):
                     ranking.add(restaurant, self.score(user, restaurant))
 
             recommendations[user] = ranking
+
+            if (index+1) % 50 == 0:
+                print(f"\t\tRecommmended {index+1} out of {len(test_users)} users")
 
         return recommendations
 
@@ -63,8 +66,8 @@ class CosineRecommender(Recommender):
         common_aspects = aspects_user.intersection(aspects_restaurant)
 
         return sum(
-            self.ratings.aspect_weight(user, aspect)
-            * self.ratings.aspect_weight(restaurant, aspect)
+            self.ratings.aspect_user_weight(user, aspect)
+            * self.ratings.aspect_restaurant_weight(restaurant, aspect)
             for aspect in common_aspects
         )
 
@@ -111,7 +114,6 @@ class UserKNNRecommender(Recommender):
         return sum(
             sim * self.ratings.user_rating(user2, restaurant)
             for sim, user2 in heap
-            if self.ratings.user_rating(user2, restaurant) != 0
         )
 
 
@@ -144,25 +146,28 @@ class RestaurantKNNRecommender(Recommender):
 
         print("DONE")
 
-    def recommend(self, topn, test_restaurants=None):
+    def recommend(self, topn, test_users=None):
         """
         :param topn: it limits the Ranking size to topn items.
-        :param test_restaurants: restaurants to test
+        :param test_users: restaurants to test
         :return: a dictionary of a ranking per user.
         """
         recommendations = {}
 
-        if test_restaurants is None:
-            test_restaurants = self.ratings.restaurants()
+        if test_users is None:
+            test_users = self.ratings.users()
 
-        for user in self.ratings.users():
+        for index, user in enumerate(test_users):
             ranking = Ranking(topn)
 
-            for restaurant in test_restaurants:
-                if self.ratings.restaurant_rating(restaurant, user) == 0:
+            for restaurant in self.ratings.restaurants():
+                if self.ratings.user_rating(user, restaurant) == 0:
                     ranking.add(restaurant, self.score(restaurant, user))
 
             recommendations[user] = ranking
+
+            if (index+1) % 50 == 0:
+                print(f"\t\tRecommmended {index+1} out of {len(test_users)} users")
 
         return recommendations
 
@@ -172,5 +177,4 @@ class RestaurantKNNRecommender(Recommender):
         return sum(
             sim * self.ratings.restaurant_rating(restaurant2, user)
             for sim, restaurant2 in heap
-            if self.ratings.restaurant_rating(restaurant2, user) != 0
         )
