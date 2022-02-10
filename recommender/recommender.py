@@ -32,7 +32,7 @@ class Recommender(ABC):
 
             recommendations[user] = ranking
 
-            if (index+1) % 50 == 0:
+            if (index+1) % 100 == 0:
                 print(f"\t\tRecommmended {index+1} out of {len(test_users)} users")
 
         return recommendations
@@ -166,7 +166,7 @@ class RestaurantKNNRecommender(Recommender):
 
             recommendations[user] = ranking
 
-            if (index+1) % 50 == 0:
+            if (index+1) % 100 == 0:
                 print(f"\t\tRecommmended {index+1} out of {len(test_users)} users")
 
         return recommendations
