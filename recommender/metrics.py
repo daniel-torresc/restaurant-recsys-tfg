@@ -53,11 +53,7 @@ class Recall(Metric):
 
         self.relevant_user = {}
         for user in self.test.users():
-            self.relevant_user[user] = 0
-
-            for _, rating in self.test.ratings(user).items():
-                if rating >= self.threshold:
-                    self.relevant_user[user] += 1
+            self.relevant_user[user] = sum(rating >= self.threshold for _, rating in self.test.ratings(user).items())
 
     def compute(self, recommendation):
         recall_list = []

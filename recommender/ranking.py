@@ -52,11 +52,7 @@ class Ranking:
         return reversed(self.ranking)
 
     def __repr__(self):
-        r = ""
-        for item, score in self:
-            r += f"\t\tRestaurant [{item}] : {score}\n"
-
-        return r[:-1]
+        return "".join(f"\t\tRestaurant [{item}] : {score}\n" for item, score in self)[:-1]
 
     def __len__(self):
         return len([x for x in self])

@@ -72,11 +72,9 @@ class CosineRecommender(Recommender):
         )
 
     def module(self, item):
-        if item in self.module_cache:
-            return self.module_cache[item]
-        else:
+        if item not in self.module_cache:
             self.module_cache[item] = math.sqrt(sum(i ** 2 for i in self.ratings.aspects(item).values()))
-            return self.module_cache[item]
+        return self.module_cache[item]
 
 
 class UserKNNRecommender(Recommender):

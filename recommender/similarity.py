@@ -60,18 +60,14 @@ class CosineUserSimilarityAspects(Similarity):
         )
 
     def module(self, user):
-        if user in self.module_cache:
-            return self.module_cache[user]
-        else:
+        if user not in self.module_cache:
             self.module_cache[user] = math.sqrt(sum(i ** 2 for i in self.ratings.aspects(user).values()))
-            return self.module_cache[user]
+        return self.module_cache[user]
 
     def aspects(self, user):
-        if user in self.aspects_cache:
-            return self.aspects_cache[user]
-        else:
+        if user not in self.aspects_cache:
             self.aspects_cache[user] = set(self.ratings.aspects(user).keys())
-            return self.aspects_cache[user]
+        return self.aspects_cache[user]
 
 
 class CosineRestaurantSimilarityAspects(Similarity):
@@ -120,18 +116,14 @@ class CosineRestaurantSimilarityAspects(Similarity):
         )
 
     def module(self, restaurant):
-        if restaurant in self.module_cache:
-            return self.module_cache[restaurant]
-        else:
+        if restaurant not in self.module_cache:
             self.module_cache[restaurant] = math.sqrt(sum(i ** 2 for i in self.ratings.aspects(restaurant).values()))
-            return self.module_cache[restaurant]
+        return self.module_cache[restaurant]
 
     def aspects(self, restaurant):
-        if restaurant in self.aspects_cache:
-            return self.aspects_cache[restaurant]
-        else:
+        if restaurant not in self.aspects_cache:
             self.aspects_cache[restaurant] = set(self.ratings.aspects(restaurant).keys())
-            return self.aspects_cache[restaurant]
+        return self.aspects_cache[restaurant]
 
 
 class CosineUserSimilarityRatings(Similarity):
@@ -180,18 +172,14 @@ class CosineUserSimilarityRatings(Similarity):
         )
 
     def module(self, user):
-        if user in self.module_cache:
-            return self.module_cache[user]
-        else:
+        if user not in self.module_cache:
             self.module_cache[user] = math.sqrt(sum(i ** 2 for i in self.ratings.ratings(user).values()))
-            return self.module_cache[user]
+        return self.module_cache[user]
 
     def restaurants(self, user):
-        if user in self.restaurants_cache:
-            return self.restaurants_cache[user]
-        else:
+        if user not in self.restaurants_cache:
             self.restaurants_cache[user] = set(self.ratings.ratings(user).keys())
-            return self.restaurants_cache[user]
+        return self.restaurants_cache[user]
 
 
 class CosineRestaurantSimilarityRatings(Similarity):
@@ -240,15 +228,11 @@ class CosineRestaurantSimilarityRatings(Similarity):
         )
 
     def module(self, restaurant):
-        if restaurant in self.module_cache:
-            return self.module_cache[restaurant]
-        else:
+        if restaurant not in self.module_cache:
             self.module_cache[restaurant] = math.sqrt(sum(i ** 2 for i in self.ratings.ratings(restaurant).values()))
-            return self.module_cache[restaurant]
+        return self.module_cache[restaurant]
 
     def users(self, restaurant):
-        if restaurant in self.users_cache:
-            return self.users_cache[restaurant]
-        else:
+        if restaurant not in self.users_cache:
             self.users_cache[restaurant] = set(self.ratings.ratings(restaurant).keys())
-            return self.users_cache[restaurant]
+        return self.users_cache[restaurant]
