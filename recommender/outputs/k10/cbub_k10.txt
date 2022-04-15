@@ -1,0 +1,246 @@
+Elapsed time importing dataset --> 0:00:01
+Elapsed time spliting dataset into test-train --> 0:00:02
+Elapsed time generating ratings --> 0:01:57
+Elapsed time loading metrics --> 0:00:00
+
+Building CosineUserSimilarityAspects...
+	Processed 1000 out of 10308 users
+	Processed 2000 out of 10308 users
+	Processed 3000 out of 10308 users
+	Processed 4000 out of 10308 users
+	Processed 5000 out of 10308 users
+	Processed 6000 out of 10308 users
+	Processed 7000 out of 10308 users
+	Processed 8000 out of 10308 users
+	Processed 9000 out of 10308 users
+	Processed 10000 out of 10308 users
+	DONE
+Building UserKNNRecommender...DONE
+
+Testing UserKNNRecommender - Top 100
+	Building recommendations...
+		Recommmended 50 out of 10308 users
+		Recommmended 100 out of 10308 users
+		Recommmended 150 out of 10308 users
+		Recommmended 200 out of 10308 users
+		Recommmended 250 out of 10308 users
+		Recommmended 300 out of 10308 users
+		Recommmended 350 out of 10308 users
+		Recommmended 400 out of 10308 users
+		Recommmended 450 out of 10308 users
+		Recommmended 500 out of 10308 users
+		Recommmended 550 out of 10308 users
+		Recommmended 600 out of 10308 users
+		Recommmended 650 out of 10308 users
+		Recommmended 700 out of 10308 users
+		Recommmended 750 out of 10308 users
+		Recommmended 800 out of 10308 users
+		Recommmended 850 out of 10308 users
+		Recommmended 900 out of 10308 users
+		Recommmended 950 out of 10308 users
+		Recommmended 1000 out of 10308 users
+		Recommmended 1050 out of 10308 users
+		Recommmended 1100 out of 10308 users
+		Recommmended 1150 out of 10308 users
+		Recommmended 1200 out of 10308 users
+		Recommmended 1250 out of 10308 users
+		Recommmended 1300 out of 10308 users
+		Recommmended 1350 out of 10308 users
+		Recommmended 1400 out of 10308 users
+		Recommmended 1450 out of 10308 users
+		Recommmended 1500 out of 10308 users
+		Recommmended 1550 out of 10308 users
+		Recommmended 1600 out of 10308 users
+		Recommmended 1650 out of 10308 users
+		Recommmended 1700 out of 10308 users
+		Recommmended 1750 out of 10308 users
+		Recommmended 1800 out of 10308 users
+		Recommmended 1850 out of 10308 users
+		Recommmended 1900 out of 10308 users
+		Recommmended 1950 out of 10308 users
+		Recommmended 2000 out of 10308 users
+		Recommmended 2050 out of 10308 users
+		Recommmended 2100 out of 10308 users
+		Recommmended 2150 out of 10308 users
+		Recommmended 2200 out of 10308 users
+		Recommmended 2250 out of 10308 users
+		Recommmended 2300 out of 10308 users
+		Recommmended 2350 out of 10308 users
+		Recommmended 2400 out of 10308 users
+		Recommmended 2450 out of 10308 users
+		Recommmended 2500 out of 10308 users
+		Recommmended 2550 out of 10308 users
+		Recommmended 2600 out of 10308 users
+		Recommmended 2650 out of 10308 users
+		Recommmended 2700 out of 10308 users
+		Recommmended 2750 out of 10308 users
+		Recommmended 2800 out of 10308 users
+		Recommmended 2850 out of 10308 users
+		Recommmended 2900 out of 10308 users
+		Recommmended 2950 out of 10308 users
+		Recommmended 3000 out of 10308 users
+		Recommmended 3050 out of 10308 users
+		Recommmended 3100 out of 10308 users
+		Recommmended 3150 out of 10308 users
+		Recommmended 3200 out of 10308 users
+		Recommmended 3250 out of 10308 users
+		Recommmended 3300 out of 10308 users
+		Recommmended 3350 out of 10308 users
+		Recommmended 3400 out of 10308 users
+		Recommmended 3450 out of 10308 users
+		Recommmended 3500 out of 10308 users
+		Recommmended 3550 out of 10308 users
+		Recommmended 3600 out of 10308 users
+		Recommmended 3650 out of 10308 users
+		Recommmended 3700 out of 10308 users
+		Recommmended 3750 out of 10308 users
+		Recommmended 3800 out of 10308 users
+		Recommmended 3850 out of 10308 users
+		Recommmended 3900 out of 10308 users
+		Recommmended 3950 out of 10308 users
+		Recommmended 4000 out of 10308 users
+		Recommmended 4050 out of 10308 users
+		Recommmended 4100 out of 10308 users
+		Recommmended 4150 out of 10308 users
+		Recommmended 4200 out of 10308 users
+		Recommmended 4250 out of 10308 users
+		Recommmended 4300 out of 10308 users
+		Recommmended 4350 out of 10308 users
+		Recommmended 4400 out of 10308 users
+		Recommmended 4450 out of 10308 users
+		Recommmended 4500 out of 10308 users
+		Recommmended 4550 out of 10308 users
+		Recommmended 4600 out of 10308 users
+		Recommmended 4650 out of 10308 users
+		Recommmended 4700 out of 10308 users
+		Recommmended 4750 out of 10308 users
+		Recommmended 4800 out of 10308 users
+		Recommmended 4850 out of 10308 users
+		Recommmended 4900 out of 10308 users
+		Recommmended 4950 out of 10308 users
+		Recommmended 5000 out of 10308 users
+		Recommmended 5050 out of 10308 users
+		Recommmended 5100 out of 10308 users
+		Recommmended 5150 out of 10308 users
+		Recommmended 5200 out of 10308 users
+		Recommmended 5250 out of 10308 users
+		Recommmended 5300 out of 10308 users
+		Recommmended 5350 out of 10308 users
+		Recommmended 5400 out of 10308 users
+		Recommmended 5450 out of 10308 users
+		Recommmended 5500 out of 10308 users
+		Recommmended 5550 out of 10308 users
+		Recommmended 5600 out of 10308 users
+		Recommmended 5650 out of 10308 users
+		Recommmended 5700 out of 10308 users
+		Recommmended 5750 out of 10308 users
+		Recommmended 5800 out of 10308 users
+		Recommmended 5850 out of 10308 users
+		Recommmended 5900 out of 10308 users
+		Recommmended 5950 out of 10308 users
+		Recommmended 6000 out of 10308 users
+		Recommmended 6050 out of 10308 users
+		Recommmended 6100 out of 10308 users
+		Recommmended 6150 out of 10308 users
+		Recommmended 6200 out of 10308 users
+		Recommmended 6250 out of 10308 users
+		Recommmended 6300 out of 10308 users
+		Recommmended 6350 out of 10308 users
+		Recommmended 6400 out of 10308 users
+		Recommmended 6450 out of 10308 users
+		Recommmended 6500 out of 10308 users
+		Recommmended 6550 out of 10308 users
+		Recommmended 6600 out of 10308 users
+		Recommmended 6650 out of 10308 users
+		Recommmended 6700 out of 10308 users
+		Recommmended 6750 out of 10308 users
+		Recommmended 6800 out of 10308 users
+		Recommmended 6850 out of 10308 users
+		Recommmended 6900 out of 10308 users
+		Recommmended 6950 out of 10308 users
+		Recommmended 7000 out of 10308 users
+		Recommmended 7050 out of 10308 users
+		Recommmended 7100 out of 10308 users
+		Recommmended 7150 out of 10308 users
+		Recommmended 7200 out of 10308 users
+		Recommmended 7250 out of 10308 users
+		Recommmended 7300 out of 10308 users
+		Recommmended 7350 out of 10308 users
+		Recommmended 7400 out of 10308 users
+		Recommmended 7450 out of 10308 users
+		Recommmended 7500 out of 10308 users
+		Recommmended 7550 out of 10308 users
+		Recommmended 7600 out of 10308 users
+		Recommmended 7650 out of 10308 users
+		Recommmended 7700 out of 10308 users
+		Recommmended 7750 out of 10308 users
+		Recommmended 7800 out of 10308 users
+		Recommmended 7850 out of 10308 users
+		Recommmended 7900 out of 10308 users
+		Recommmended 7950 out of 10308 users
+		Recommmended 8000 out of 10308 users
+		Recommmended 8050 out of 10308 users
+		Recommmended 8100 out of 10308 users
+		Recommmended 8150 out of 10308 users
+		Recommmended 8200 out of 10308 users
+		Recommmended 8250 out of 10308 users
+		Recommmended 8300 out of 10308 users
+		Recommmended 8350 out of 10308 users
+		Recommmended 8400 out of 10308 users
+		Recommmended 8450 out of 10308 users
+		Recommmended 8500 out of 10308 users
+		Recommmended 8550 out of 10308 users
+		Recommmended 8600 out of 10308 users
+		Recommmended 8650 out of 10308 users
+		Recommmended 8700 out of 10308 users
+		Recommmended 8750 out of 10308 users
+		Recommmended 8800 out of 10308 users
+		Recommmended 8850 out of 10308 users
+		Recommmended 8900 out of 10308 users
+		Recommmended 8950 out of 10308 users
+		Recommmended 9000 out of 10308 users
+		Recommmended 9050 out of 10308 users
+		Recommmended 9100 out of 10308 users
+		Recommmended 9150 out of 10308 users
+		Recommmended 9200 out of 10308 users
+		Recommmended 9250 out of 10308 users
+		Recommmended 9300 out of 10308 users
+		Recommmended 9350 out of 10308 users
+		Recommmended 9400 out of 10308 users
+		Recommmended 9450 out of 10308 users
+		Recommmended 9500 out of 10308 users
+		Recommmended 9550 out of 10308 users
+		Recommmended 9600 out of 10308 users
+		Recommmended 9650 out of 10308 users
+		Recommmended 9700 out of 10308 users
+		Recommmended 9750 out of 10308 users
+		Recommmended 9800 out of 10308 users
+		Recommmended 9850 out of 10308 users
+		Recommmended 9900 out of 10308 users
+		Recommmended 9950 out of 10308 users
+		Recommmended 10000 out of 10308 users
+		Recommmended 10050 out of 10308 users
+		Recommmended 10100 out of 10308 users
+		Recommmended 10150 out of 10308 users
+		Recommmended 10200 out of 10308 users
+		Recommmended 10250 out of 10308 users
+		Recommmended 10300 out of 10308 users
+	DONE
+	Precision@5 threshold=1
+		mean=7.760962359332557e-05	stddev=0.0039392139876022
+	Recall@5 threshold=1
+		mean=2.8283588382540654e-05	stddev=0.0015648277677106997
+	Precision@10 threshold=1
+		mean=8.731082654249127e-05	stddev=0.0029536935921711132
+	Recall@10 threshold=1
+		mean=5.5645955675059285e-05	stddev=0.002044876168156451
+	Precision@20 threshold=1
+		mean=7.760962359332557e-05	stddev=0.0020880471834178074
+	Recall@20 threshold=1
+		mean=0.00012020219019636948	stddev=0.003937422877012456
+	Precision@50 threshold=1
+		mean=6.014745828482732e-05	stddev=0.001130072990215951
+	Recall@50 threshold=1
+		mean=0.00023871338594252166	stddev=0.00540134912624889
+
+Elapsed time testing cbub recommender --> 0:26:04
